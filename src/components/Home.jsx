@@ -12,7 +12,7 @@ export default function Home() {
       <div className="home-content">
         <div className="emoji">📷</div>
         <h1 className="display-4">Prediksi Umur Wajah</h1>
-        <p className="lead mb-4">Upload foto wajah dan AI akan memperkirakan usia Anda</p>
+        <p className="lead mb-4">Upload foto wajah dan kami akan memperkirakan usia Anda</p>
 
         {!user ? (
           <>
