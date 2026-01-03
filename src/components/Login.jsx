@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -21,7 +23,7 @@ export default function Login() {
 
     setTimeout(() => {
       if (email && password.length >= 6) {
-        localStorage.setItem("user", JSON.stringify({ email }));
+        login({ email });
         navigate("/");
       } else {
         setError("Email atau password tidak valid");

@@ -1,6 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -22,16 +32,39 @@ export default function Navbar() {
                 🔮 Predik
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/login">
-                🔑 Login
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/register">
-                👤 Register
-              </a>
-            </li>
+            {user && (
+              <>
+                <li className="nav-item">
+                  <a className="nav-link" href="/profile">
+                    👤 Profile
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/riwayat">
+                    📋 Riwayat
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <button className="nav-link btn btn-link" onClick={handleLogout}>
+                    🚪 Logout
+                  </button>
+                </li>
+              </>
+            )}
+            {!user && (
+              <>
+                <li className="nav-item">
+                  <a className="nav-link" href="/login">
+                    🔑 Login
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/register">
+                    📝 Register
+                  </a>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
