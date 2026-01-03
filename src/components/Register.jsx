@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 export default function Register() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -44,14 +46,12 @@ export default function Register() {
     }
 
     setTimeout(() => {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-        })
-      );
+      login({
+        name: formData.name,
+        email: formData.email,
+      });
       navigate("/");
+      setLoading(false);
     }, 1000);
   };
 

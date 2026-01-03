@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { useAuth } from "../AuthContext";
+import Swal from "sweetalert2";
 
 export default function Predict() {
+  const { user } = useAuth();
   const [image, setImage] = useState(null);
+  const [description, setDescription] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -18,14 +22,36 @@ export default function Predict() {
 
   const handlePredict = async () => {
     if (!image) {
-      alert("Silakan upload foto terlebih dahulu");
+      Swal.fire({
+        icon: "warning",
+        title: "Foto Belum Diupload",
+        text: "Silakan upload foto terlebih dahulu",
+        confirmButtonText: "OK",
+      });
       return;
     }
 
-      setLoading(true);
-      
+    setLoading(true);
+
     setTimeout(() => {
-      setResult({ age: Math.floor(Math.random() * 60) + 15 });
+      const predictionResult = {
+        age: Math.floor(Math.random() * 60) + 15,
+        timestamp: new Date().toLocaleString("id-ID"),
+      };
+
+      if (user) {
+        const history = JSON.parse(localStorage.getItem("predictions") || "[]");
+        history.push({
+          id: Date.now(),
+          image,
+          description,
+          age: predictionResult.age,
+          timestamp: predictionResult.timestamp,
+        });
+        localStorage.setItem("predictions", JSON.stringify(history));
+      }
+
+      setResult(predictionResult);
       setLoading(false);
     }, 1500);
   };
@@ -51,6 +77,15 @@ export default function Predict() {
               </div>
             </div>
           </div>
+
+          {user && (
+            <div className="mb-4">
+              <label htmlFor="description" className="form-label">
+                Deskripsi (opsional)
+              </label>
+              <textarea id="description" className="form-control" rows="3" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Tambahkan catatan tentang foto ini..."></textarea>
+            </div>
+          )}
 
           <button className="btn btn-primary w-100 mb-4" onClick={handlePredict} disabled={loading}>
             {loading ? "Memproses..." : "Prediksi Umur"}
