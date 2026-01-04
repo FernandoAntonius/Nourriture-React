@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 
 export default function Login({ onLogin }) {
   const navigate = useNavigate();
-  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,85 +33,45 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="d-flex align-items-center justify-content-center min-vh-100 bg-primary">
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-lg-8">
-            <div className="card shadow-lg">
-              <div className="row g-0">
-                <div className="col-md-5 bg-primary text-white d-flex align-items-center justify-content-center p-5">
-                  <div className="text-center">
-                    <div className="display-1 mb-3">📷</div>
-                    <h4>Prediksi Umur Wajah</h4>
-                    <p className="text-white-50">
-                      Masuk untuk menyimpan riwayat prediksi
-                    </p>
-                  </div>
-                </div>
-                <div className="col-md-7">
-                  <div className="card-body p-5">
-                    <h2 className="card-title mb-2">Masuk</h2>
-                    <p className="text-muted mb-4">Selamat datang kembali</p>
+    <div className="d-flex align-items-center justify-content-center min-vh-100" style={{ backgroundColor: "#f8f9fa" }}>
+      <div className="card shadow" style={{ width: "100%", maxWidth: "400px" }}>
+        <div className="card-body p-4">
+          <h2 style={{ color: "#151515ff", marginBottom: "0.5rem", textAlign: "center" }}>Login</h2>
+          <p style={{ textAlign: "center", marginBottom: "1.5rem", color: "#6c757d" }}>Selamat datang kembali</p>
 
-                    {error && (
-                      <div className="alert alert-danger" role="alert">
-                        {error}
-                      </div>
-                    )}
-
-                    <form onSubmit={handleSubmit}>
-                      <div className="mb-3">
-                        <label htmlFor="email" className="form-label">
-                          Email
-                        </label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          id="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="nama@email.com"
-                          required
-                        />
-                      </div>
-
-                      <div className="mb-3">
-                        <label htmlFor="password" className="form-label">
-                          Password
-                        </label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          placeholder="Masukkan password"
-                          required
-                        />
-                      </div>
-
-                      <button
-                        type="submit"
-                        className="btn btn-primary w-100"
-                        disabled={loading}>
-                        {loading ? "Sedang Masuk..." : "Masuk"}
-                      </button>
-                    </form>
-
-                    <div className="mt-4 text-center">
-                      <p className="text-muted">
-                        Belum punya akun?{" "}
-                        <a
-                          href="/register"
-                          className="text-primary text-decoration-none">
-                          Daftar di sini
-                        </a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
             </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+                Email
+              </label>
+              <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="nama@email.com" required />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Masukkan password" required />
+            </div>
+
+            <button type="submit" className="btn btn-outline-secondary w-100" disabled={loading}>
+              {loading ? "Sedang Masuk..." : "Login"}
+            </button>
+          </form>
+
+          <div className="mt-3 text-center">
+            <p className="text-muted mb-0">
+              Belum punya akun?{" "}
+              <a href="/register" className="text-decoration-none" style={{ color: "#0d6efd" }}>
+                Register di sini
+              </a>
+            </p>
           </div>
         </div>
       </div>

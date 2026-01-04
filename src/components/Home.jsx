@@ -10,72 +10,36 @@ export default function Home({ isLoggedIn }) {
   return (
     <div className="home-container">
       <div className="home-content">
-        <div className="emoji">📷</div>
         <h1 className="display-4">Prediksi Umur Wajah</h1>
-        <p className="lead mb-4">
-          Upload foto wajah dan kami akan memperkirakan usia Anda
-        </p>
+        <p className="lead mb-4">Upload foto wajah dan kami akan memperkirakan usia Anda</p>
         {!user ? (
           <>
             <div className="d-flex gap-3 justify-content-center mb-4">
-              <button
-                className="btn btn-outline-secondary btn-lg"
-                onClick={() => navigate("/predict")}>
+              <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate("/predict")}>
                 🎬 Coba Sekarang
               </button>
-              <button
-                className="btn btn-outline-primary btn-lg"
-                onClick={() => navigate("/login")}>
+              <button className="btn btn-outline-primary btn-lg" onClick={() => navigate("/login")}>
                 Login
               </button>
             </div>
-            <p className="text-white">
-              Login untuk menyimpan riwayat prediksi!
-            </p>
+            <p className="text-white">Login untuk menyimpan riwayat prediksi!</p>
           </>
         ) : (
           <>
             <div className="d-flex gap-3 justify-content-center mb-4">
-              <button
-                className="btn btn-outline-secondary btn-lg"
-                onClick={() => navigate("/predict")}>
+              <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate("/predict")}>
                 🎬 Mulai Prediksi
               </button>
-              <button
-                className="btn btn-outline-secondary btn-lg"
-                onClick={() => navigate("/riwayat")}>
+              <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate("/riwayat")}>
                 📋 Lihat Riwayat
               </button>
-              <button
-                className="btn btn-outline-info btn-lg"
-                onClick={() => navigate("/profile")}>
+              <button className="btn btn-outline-info btn-lg" onClick={() => navigate("/profile")}>
                 👤 Profil Saya
               </button>
             </div>
-            <p className="text-white">
-              Selamat datang, {user.name || user.email}!
-            </p>
+            <p className="text-white">Selamat datang, {user.name || user.email}!</p>
           </>
         )}
-        <div className="d-flex gap-3 justify-content-center mb-4">
-          <button
-            className="btn btn-primary btn-lg"
-            onClick={() => navigate("/predict")}>
-            🎬 Coba Sekarang
-          </button>
-          {!isLoggedIn && (
-            <button
-              className="btn btn-outline-primary btn-lg"
-              onClick={() => navigate("/login")}>
-              Login
-            </button>
-          )}
-        </div>
-
-        {!isLoggedIn && (
-          <p className="text-muted">Login untuk menyimpan riwayat prediksi</p>
-        )}
-        {isLoggedIn && <p className="text-success">Selamat datang! 👋</p>}
       </div>
     </div>
   );

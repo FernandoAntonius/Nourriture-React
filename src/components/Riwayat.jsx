@@ -11,8 +11,12 @@ export default function Riwayat() {
 
     const historyData = JSON.parse(localStorage.getItem("predictionHistory") || "[]");
 
-    const userHistory = historyData.filter((h) => h.user === userData?.email);
-    setHistory(userHistory);
+    if (userData?.email) {
+      const userHistory = historyData.filter((h) => h.user === userData.email);
+      setHistory(userHistory);
+    } else {
+      setHistory([]);
+    }
   }, []);
 
   const handleDelete = (id) => {
