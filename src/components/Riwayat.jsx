@@ -1,39 +1,66 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../AuthContext";
 import Swal from "sweetalert2";
 
 export default function Riwayat() {
-  const { user } = useAuth();
-  const [predictions, setPredictions] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("predictions");
-    if (saved) {
-      setPredictions(JSON.parse(saved));
-    }
+    const userData = JSON.parse(localStorage.getItem("user"));
+    setUser(userData);
+
+    const historyData = JSON.parse(localStorage.getItem("predictionHistory") || "[]");
+
+    const userHistory = historyData.filter((h) => h.user === userData?.email);
+    setHistory(userHistory);
   }, []);
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Hapus Riwayat?",
-      text: "Apakah Anda yakin ingin menghapus riwayat ini? Tindakan ini tidak dapat dibatalkan.",
       icon: "warning",
+      title: "Hapus Prediksi?",
+      text: "Apakah Anda yakin ingin menghapus prediksi ini?",
       showCancelButton: true,
-      confirmButtonColor: "#dc3545",
-      cancelButtonColor: "#6c757d",
-      confirmButtonText: "Ya, Hapus!",
+      confirmButtonText: "Ya, Hapus",
       cancelButtonText: "Batal",
     }).then((result) => {
       if (result.isConfirmed) {
-        const updated = predictions.filter((p) => p.id !== id);
-        setPredictions(updated);
-        localStorage.setItem("predictions", JSON.stringify(updated));
+        const allHistory = JSON.parse(localStorage.getItem("predictionHistory") || "[]");
+        const updatedHistory = allHistory.filter((h) => h.id !== id);
+        localStorage.setItem("predictionHistory", JSON.stringify(updatedHistory));
+
+        const userHistory = updatedHistory.filter((h) => h.user === user?.email);
+        setHistory(userHistory);
+
         Swal.fire({
           icon: "success",
           title: "Terhapus!",
-          text: "Riwayat prediksi telah dihapus.",
-          timer: 1500,
-          showConfirmButton: false,
+          text: "Prediksi berhasil dihapus.",
+        });
+      }
+    });
+  };
+
+  const handleDeleteAll = () => {
+    Swal.fire({
+      icon: "warning",
+      title: "Hapus Semua Riwayat?",
+      text: "Apakah Anda yakin ingin menghapus SEMUA riwayat prediksi? Tindakan ini tidak dapat dibatalkan!",
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      confirmButtonText: "Ya, Hapus Semua",
+      cancelButtonText: "Batal",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const allHistory = JSON.parse(localStorage.getItem("predictionHistory") || "[]");
+        const updatedHistory = allHistory.filter((h) => h.user !== user?.email);
+        localStorage.setItem("predictionHistory", JSON.stringify(updatedHistory));
+        setHistory([]);
+
+        Swal.fire({
+          icon: "success",
+          title: "Terhapus!",
+          text: "Semua riwayat prediksi berhasil dihapus.",
         });
       }
     });
@@ -41,49 +68,86 @@ export default function Riwayat() {
 
   return (
     <div className="container py-5">
-      <h1 className="mb-4">📋 Riwayat Prediksi</h1>
+      <h1 className="text-center mb-5">📋 Riwayat Prediksi</h1>
 
-      {predictions.length === 0 ? (
-        <div className="alert alert-info" role="alert">
-          Belum ada riwayat prediksi. <a href="/predict">Mulai prediksi sekarang!</a>
+      {history.length === 0 ? (
+        <div className="alert alert-info text-center">
+          <p>Belum ada riwayat prediksi. Mulai prediksi sekarang!</p>
         </div>
       ) : (
-        <div className="row">
-          {predictions.map((prediction) => (
-            <div key={prediction.id} className="col-lg-4 col-md-6 mb-4">
-              <div className="card h-100 shadow">
-                <div style={{ width: "100%", height: "250px", overflow: "hidden", backgroundColor: "#f0f0f0" }}>
-                  <img
-                    src={prediction.image}
-                    alt="Prediction"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      display: "block",
-                    }}
-                  />
-                </div>
-                <div className="card-body">
-                  <h5 className="card-title">
-                    Usia: <span className="badge bg-success">{prediction.age} Tahun</span>
+        <>
+          <div className="table-responsive mb-4">
+            <table className="table table-striped table-hover">
+              <thead className="table-dark">
+                <tr>
+                  <th>No</th>
+                  <th>Tanggal</th>
+                  <th>Foto</th>
+                  <th>Deskripsi</th>
+                  <th>Hasil Prediksi</th>
+                  <th>Confidence</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {history.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{index + 1}</td>
+                    <td>{item.date}</td>
+                    <td>
+                      <img
+                        src={item.image}
+                        alt="preview"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          objectFit: "cover",
+                          borderRadius: "5px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          const modal = new window.bootstrap.Modal(document.getElementById("imageModal"));
+                          document.getElementById("modalImage").src = item.image;
+                          modal.show();
+                        }}
+                      />
+                    </td>
+                    <td>{item.description || "-"}</td>
+                    <td className="fw-bold text-success">{item.result.predicted_age_group}</td>
+                    <td>{(item.result.confidence * 100).toFixed(2)}%</td>
+                    <td>
+                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(item.id)}>
+                        🗑️ Hapus
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="text-center">
+            <button className="btn btn-danger" onClick={handleDeleteAll}>
+              🗑️ Hapus Semua Riwayat
+            </button>
+          </div>
+
+          <div className="modal fade" id="imageModal" tabIndex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="imageModalLabel">
+                    Preview Foto
                   </h5>
-                  {prediction.description && (
-                    <p className="card-text" style={{ fontSize: "14px", color: "#555", minHeight: "40px" }}>
-                      {prediction.description}
-                    </p>
-                  )}
-                  <small className="text-muted">Tanggal: {prediction.timestamp}</small>
+                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div className="card-footer bg-transparent">
-                  <button className="btn btn-danger btn-sm w-100" onClick={() => handleDelete(prediction.id)}>
-                    🗑️ Hapus
-                  </button>
+                <div className="modal-body text-center">
+                  <img id="modalImage" src="" alt="preview" className="img-fluid" />
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        </>
       )}
     </div>
   );

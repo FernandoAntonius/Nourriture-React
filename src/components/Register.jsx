@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext";
+import Swal from "sweetalert2";
 
-export default function Register() {
+export default function Register({ onLogin }) {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
@@ -46,10 +46,11 @@ export default function Register() {
     }
 
     setTimeout(() => {
-      login({
+      const userData = {
         name: formData.name,
         email: formData.email,
-      });
+      };
+      onLogin(userData);
       navigate("/");
       setLoading(false);
     }, 1000);

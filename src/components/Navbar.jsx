@@ -1,29 +1,30 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext";
 
-export default function Navbar() {
+export default function Navbar({ isLoggedIn, onLogout }) {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
 
   const handleLogout = () => {
-    logout();
+    onLogout();
     navigate("/");
   };
-
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <a className="navbar-brand fw-bold" href="/">
           📷 Prediksi Umur
         </a>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a className="nav-link active" href="/">
+              <a className="nav-link" href="/">
                 🏠 Home
               </a>
             </li>
@@ -32,7 +33,8 @@ export default function Navbar() {
                 🔮 Predik
               </a>
             </li>
-            {user && (
+
+            {isLoggedIn ? (
               <>
                 <li className="nav-item">
                   <a className="nav-link" href="/profile">
@@ -45,13 +47,14 @@ export default function Navbar() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <button className="nav-link btn btn-link" onClick={handleLogout}>
+                  <button
+                    className="nav-link btn btn-link"
+                    onClick={handleLogout}>
                     🚪 Logout
                   </button>
                 </li>
               </>
-            )}
-            {!user && (
+            ) : (
               <>
                 <li className="nav-item">
                   <a className="nav-link" href="/login">
@@ -60,7 +63,7 @@ export default function Navbar() {
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="/register">
-                    📝 Register
+                    ✍️ Register
                   </a>
                 </li>
               </>

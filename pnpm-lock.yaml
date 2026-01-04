@@ -23,9 +23,6 @@ importers:
       react-router-dom:
         specifier: ^7.11.0
         version: 7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      sweetalert:
-        specifier: ^2.1.2
-        version: 2.1.2
       sweetalert2:
         specifier: ^11.26.17
         version: 11.26.17
@@ -1027,8 +1024,7 @@ packages:
 
   sweetalert2@11.26.17:
     resolution: {integrity: sha512-kkaySn1IRfwNlf9AkZVqDmBINDWw9NRR6Ij0O5dBRBOD1+mbtZJWxxR9/pA90nce9E5tIIkJ7SWij4rMWXtA1g==}
-  sweetalert@2.1.2:
-    resolution: {integrity: sha512-iWx7X4anRBNDa/a+AdTmvAzQtkN1+s4j/JJRWlHpYE8Qimkohs8/XnFcWeYHH2lMA8LRCa5tj2d244If3S/hzA==}
+
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
     engines: {node: '>=12.0.0'}
@@ -1986,10 +1982,6 @@ snapshots:
 
   sweetalert2@11.26.17: {}
 
-  sweetalert@2.1.2:
-    dependencies:
-      es6-object-assign: 1.1.0
-      promise-polyfill: 6.1.0
   tinyglobby@0.2.15:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.3)

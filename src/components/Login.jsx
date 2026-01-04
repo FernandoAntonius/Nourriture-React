@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext";
+import Swal from "sweetalert2";
 
-export default function Login() {
+export default function Login({ onLogin }) {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [email, setEmail] = useState("");
@@ -23,7 +23,8 @@ export default function Login() {
 
     setTimeout(() => {
       if (email && password.length >= 6) {
-        login({ email });
+        const userData = { email, name: email.split("@")[0] };
+        onLogin(userData);
         navigate("/");
       } else {
         setError("Email atau password tidak valid");
@@ -43,7 +44,9 @@ export default function Login() {
                   <div className="text-center">
                     <div className="display-1 mb-3">📷</div>
                     <h4>Prediksi Umur Wajah</h4>
-                    <p className="text-white-50">Masuk untuk menyimpan riwayat prediksi</p>
+                    <p className="text-white-50">
+                      Masuk untuk menyimpan riwayat prediksi
+                    </p>
                   </div>
                 </div>
                 <div className="col-md-7">
@@ -62,17 +65,36 @@ export default function Login() {
                         <label htmlFor="email" className="form-label">
                           Email
                         </label>
-                        <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="nama@email.com" required />
+                        <input
+                          type="email"
+                          className="form-control"
+                          id="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="nama@email.com"
+                          required
+                        />
                       </div>
 
                       <div className="mb-3">
                         <label htmlFor="password" className="form-label">
                           Password
                         </label>
-                        <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Masukkan password" required />
+                        <input
+                          type="password"
+                          className="form-control"
+                          id="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="Masukkan password"
+                          required
+                        />
                       </div>
 
-                      <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                      <button
+                        type="submit"
+                        className="btn btn-primary w-100"
+                        disabled={loading}>
                         {loading ? "Sedang Masuk..." : "Masuk"}
                       </button>
                     </form>
@@ -80,7 +102,9 @@ export default function Login() {
                     <div className="mt-4 text-center">
                       <p className="text-muted">
                         Belum punya akun?{" "}
-                        <a href="/register" className="text-primary text-decoration-none">
+                        <a
+                          href="/register"
+                          className="text-primary text-decoration-none">
                           Daftar di sini
                         </a>
                       </p>

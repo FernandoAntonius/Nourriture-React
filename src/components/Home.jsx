@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import "./Home.css";
 
-export default function Home() {
+export default function Home({ isLoggedIn }) {
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -15,7 +15,6 @@ export default function Home() {
         <p className="lead mb-4">
           Upload foto wajah dan kami akan memperkirakan usia Anda
         </p>
-
         {!user ? (
           <>
             <div className="d-flex gap-3 justify-content-center mb-4">
@@ -58,6 +57,25 @@ export default function Home() {
             </p>
           </>
         )}
+        <div className="d-flex gap-3 justify-content-center mb-4">
+          <button
+            className="btn btn-primary btn-lg"
+            onClick={() => navigate("/predict")}>
+            🎬 Coba Sekarang
+          </button>
+          {!isLoggedIn && (
+            <button
+              className="btn btn-outline-primary btn-lg"
+              onClick={() => navigate("/login")}>
+              Login
+            </button>
+          )}
+        </div>
+
+        {!isLoggedIn && (
+          <p className="text-muted">Login untuk menyimpan riwayat prediksi</p>
+        )}
+        {isLoggedIn && <p className="text-success">Selamat datang! 👋</p>}
       </div>
     </div>
   );
