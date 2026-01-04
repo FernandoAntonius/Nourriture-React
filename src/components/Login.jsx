@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
-export default function Login() {
+export default function Login({ onLogin }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +22,8 @@ export default function Login() {
 
     setTimeout(() => {
       if (email && password.length >= 6) {
-        localStorage.setItem("user", JSON.stringify({ email }));
+        const userData = { email, name: email.split("@")[0] };
+        onLogin(userData);
         navigate("/");
       } else {
         setError("Email atau password tidak valid");

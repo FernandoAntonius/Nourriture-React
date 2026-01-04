@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+export default function Home({ isLoggedIn }) {
   const navigate = useNavigate();
 
   return (
@@ -15,12 +15,15 @@ export default function Home() {
           <button className="btn btn-primary btn-lg" onClick={() => navigate("/predict")}>
             🎬 Coba Sekarang
           </button>
-          <button className="btn btn-outline-primary btn-lg" onClick={() => navigate("/login")}>
-            Login
-          </button>
+          {!isLoggedIn && (
+            <button className="btn btn-outline-primary btn-lg" onClick={() => navigate("/login")}>
+              Login
+            </button>
+          )}
         </div>
 
-        <p className="text-muted">Login untuk menyimpan riwayat prediksi</p>
+        {!isLoggedIn && <p className="text-muted">Login untuk menyimpan riwayat prediksi</p>}
+        {isLoggedIn && <p className="text-success">Selamat datang! 👋</p>}
       </div>
     </div>
   );

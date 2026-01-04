@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
-export default function Register() {
+export default function Register({ onLogin }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -44,14 +45,13 @@ export default function Register() {
     }
 
     setTimeout(() => {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-        })
-      );
+      const userData = {
+        name: formData.name,
+        email: formData.email,
+      };
+      onLogin(userData);
       navigate("/");
+      setLoading(false);
     }, 1000);
   };
 

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-export default function Predict() {
+export default function Predict({ isLoggedIn }) {
   const [image, setImage] = useState(null);
+  const [description, setDescription] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -22,12 +25,40 @@ export default function Predict() {
       return;
     }
 
-      setLoading(true);
-      
-    setTimeout(() => {
-      setResult({ age: Math.floor(Math.random() * 60) + 15 });
+    setLoading(true);
+    setError(null);
+
+    try {
+      const formData = new FormData();
+      const blob = await fetch(image).then((res) => res.blob());
+      formData.append("file", blob);
+
+      const response = await axios.post("http://127.0.0.1:8000/predict", formData);
+
+      console.log("API Response:", response.data);
+      setResult(response.data);
+
+      if (isLoggedIn) {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const history = JSON.parse(localStorage.getItem("predictionHistory") || "[]");
+
+        history.push({
+          id: Date.now(),
+          date: new Date().toLocaleString("id-ID"),
+          image: image,
+          description: description,
+          result: response.data,
+          user: user.email,
+        });
+
+        localStorage.setItem("predictionHistory", JSON.stringify(history));
+      }
+    } catch (err) {
+      console.error("Prediction error:", err);
+      setError(`Gagal melakukan prediksi: ${err.response?.status} ${err.response?.statusText || err.message}`);
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -52,16 +83,28 @@ export default function Predict() {
             </div>
           </div>
 
+          {isLoggedIn && (
+            <div className="mb-3">
+              <label htmlFor="description" className="form-label">
+                Deskripsi (opsional)
+              </label>
+              <textarea id="description" className="form-control" rows="3" placeholder="Tambahkan catatan untuk prediksi ini..." value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+            </div>
+          )}
+
           <button className="btn btn-primary w-100 mb-4" onClick={handlePredict} disabled={loading}>
             {loading ? "Memproses..." : "Prediksi Umur"}
           </button>
+
+          {error && <div className="alert alert-danger mb-4">{error}</div>}
 
           {result && (
             <div className="card bg-success text-white shadow">
               <div className="card-body text-center">
                 <h5 className="card-title mb-3">Hasil Prediksi</h5>
-                <div className="display-3 fw-bold">{result.age}</div>
-                <p className="mb-0">Tahun</p>
+                <div className="display-3 fw-bold">{result.predicted_age_group}</div>
+                <p className="mb-2">Tahun</p>
+                <small>Confidence: {(result.confidence * 100).toFixed(2)}%</small>
               </div>
             </div>
           )}
