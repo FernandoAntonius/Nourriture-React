@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="bg-dark text-white text-center py-4 mt-5">
+    <footer className="bg-dark text-white text-center py-4">
       <div className="container">
         <div className="mb-3">
           <span className="fs-5">📷 Prediksi Umur Wajah</span>
