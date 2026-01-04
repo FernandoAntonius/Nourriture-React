@@ -1,18 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import "./Profile.css";
 
 export default function Profile({ onLogout }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "" });
+  const [stats, setStats] = useState({
+    predictions: 0,
+    accuracy: 0,
+    daysActive: 0,
+  });
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     if (userData) {
       setUser(userData);
       setFormData(userData);
+      
+      // Calculate stats from prediction history
+      const historyData = JSON.parse(localStorage.getItem("predictionHistory") || "[]");
+      const userHistory = historyData.filter((h) => h.user === userData.email);
+      
+      const predictions = userHistory.length;
+      const accuracy = predictions > 0 
+        ? Math.round((userHistory.reduce((sum, h) => sum + h.result.confidence, 0) / predictions) * 100)
+        : 0;
+      
+      const registrationDate = new Date(userData.registeredAt || Date.now());
+      const now = new Date();
+      const daysActive = Math.floor((now - registrationDate) / (1000 * 60 * 60 * 24)) + 1;
+      
+      setStats({
+        predictions,
+        accuracy,
+        daysActive,
+      });
     }
   }, []);
 
@@ -53,83 +78,122 @@ export default function Profile({ onLogout }) {
 
   if (!user)
     return (
-      <div className="container py-5">
+      <div className="profile-container">
         <p>Loading...</p>
       </div>
     );
 
   return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card shadow">
-            <div className="card-body p-5">
-              <h1 className="card-title mb-4 text-center">👤 Profil Saya</h1>
+    <div className="profile-container">
+      <div className="profile-wrapper">
+        {/* Header */}
+        <div className="profile-header">
+          {/* <div className="profile-header-icon"></div> */}
+          <h1 className="profile-header-title">Profil Saya</h1>
+          <p className="profile-header-subtitle">Kelola informasi akun Anda</p>
+        </div>
 
-              {!isEditing ? (
-                <div>
-                  <div className="mb-3">
-                    <label className="form-label fw-bold">Nama</label>
-                    <p className="form-control-plaintext">{user.name}</p>
-                  </div>
-                  <div className="mb-4">
-                    <label className="form-label fw-bold">Email</label>
-                    <p className="form-control-plaintext">{user.email}</p>
-                  </div>
+        {/* Profile Card */}
+        <div className="profile-card">
+          {/* Avatar Section */}
+          <div className="avatar-section">
+            <div className="avatar-circle">👤</div>
+            <div className="avatar-status">● Akun Aktif</div>
+          </div>
 
-                  <div className="d-flex gap-2">
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => setIsEditing(true)}>
-                      ✏️ Edit Profil
-                    </button>
-                    <button className="btn btn-danger" onClick={handleLogout}>
-                      🚪 Logout
-                    </button>
+          {!isEditing ? (
+            <>
+              {/* Display Mode */}
+              <div className="profile-info">
+                <div className="info-field">
+                  <label className="info-label">👤 Nama</label>
+                  <div className="info-value">{user.name}</div>
+                </div>
+
+                <div className="info-field">
+                  <label className="info-label">📧 Email</label>
+                  <div className="info-email-wrapper">
+                    <div className="info-value">{user.email}</div>
                   </div>
                 </div>
-              ) : (
-                <div>
-                  <div className="mb-3">
-                    <label htmlFor="name" className="form-label fw-bold">
-                      Nama
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="email" className="form-label fw-bold">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                    />
-                  </div>
+              </div>
 
-                  <div className="d-flex gap-2">
-                    <button className="btn btn-success" onClick={handleSave}>
-                      ✅ Simpan
-                    </button>
-                    <button
-                      className="btn btn-secondary"
-                      onClick={() => setIsEditing(false)}>
-                      ❌ Batal
-                    </button>
-                  </div>
+              {/* Action Buttons */}
+              <div className="button-group">
+                <button
+                  className="btn-edit"
+                  onClick={() => setIsEditing(true)}
+                >
+                  ✏️ Edit Profil
+                </button>
+                <button className="btn-logout" onClick={handleLogout}>
+                  🚪 Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Edit Mode */}
+              <div className="profile-info">
+                <div className="info-field">
+                  <label className="info-label" htmlFor="name">👤 Nama</label>
+                  <input
+                    type="text"
+                    className="info-input"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
                 </div>
-              )}
+
+                <div className="info-field">
+                  <label className="info-label" htmlFor="email">📧 Email</label>
+                  <input
+                    type="email"
+                    className="info-input"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+
+              {/* Edit Action Buttons */}
+              <div className="button-group">
+                <button className="btn-save" onClick={handleSave}>
+                  ✅ Simpan
+                </button>
+                <button
+                  className="btn-cancel"
+                  onClick={() => setIsEditing(false)}
+                >
+                  ❌ Batal
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* Stats Section */}
+          <div className="stats-section">
+            <div className="stat-item">
+              <div className="stat-value">{stats.predictions}</div>
+              <div className="stat-label">Prediksi</div>
             </div>
+            <div className="stat-item">
+              <div className="stat-value">{stats.accuracy}%</div>
+              <div className="stat-label">Akurasi</div>
+            </div>
+            <div className="stat-item">
+              <div className="stat-value">{stats.daysActive}</div>
+              <div className="stat-label">Hari Aktif</div>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="profile-footer">
+            🔒 Data Anda aman ditangan kami
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 export default function Navbar({ isLoggedIn, onLogout }) {
   const navigate = useNavigate();
@@ -8,17 +9,23 @@ export default function Navbar({ isLoggedIn, onLogout }) {
     onLogout();
     navigate("/");
   };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark custom-navbar">
       <div className="container-fluid">
-        <a className="navbar-brand fw-bold" href="/">
-          📷 Prediksi Umur
+        <a className="navbar-brand" href="/">
+          <img src="/Logo.png" alt="Nourriture Logo" className="navbar-logo-img" />
+          <span className="navbar-brand-text">Nourriture</span>
         </a>
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarNav">
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
@@ -30,7 +37,7 @@ export default function Navbar({ isLoggedIn, onLogout }) {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/predict">
-                🔮 Predik
+                🔮 Predict
               </a>
             </li>
 
@@ -48,8 +55,9 @@ export default function Navbar({ isLoggedIn, onLogout }) {
                 </li>
                 <li className="nav-item">
                   <button
-                    className="nav-link btn btn-link"
-                    onClick={handleLogout}>
+                    className="nav-link nav-logout"
+                    onClick={handleLogout}
+                  >
                     🚪 Logout
                   </button>
                 </li>
@@ -58,7 +66,7 @@ export default function Navbar({ isLoggedIn, onLogout }) {
               <>
                 <li className="nav-item">
                   <a className="nav-link" href="/login">
-                    🔑 Login
+                    🔐 Login
                   </a>
                 </li>
                 <li className="nav-item">

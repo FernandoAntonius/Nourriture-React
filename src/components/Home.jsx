@@ -1,46 +1,53 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import Footer from "./Footer";
 import "./Home.css";
+import "./Footer.css";
 
 export default function Home({ isLoggedIn }) {
   const navigate = useNavigate();
   const { user } = useAuth();
 
   return (
-    <div className="home-container">
-      <div className="home-content">
-        <h1 className="display-4">Prediksi Umur Wajah</h1>
-        <p className="lead mb-4">Upload foto wajah dan kami akan memperkirakan usia Anda</p>
-        {!user ? (
-          <>
-            <div className="d-flex gap-3 justify-content-center mb-4">
-              <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate("/predict")}>
-                🎬 Coba Sekarang
-              </button>
-              <button className="btn btn-outline-primary btn-lg" onClick={() => navigate("/login")}>
-                Login
-              </button>
-            </div>
-            <p className="text-white">Login untuk menyimpan riwayat prediksi!</p>
-          </>
-        ) : (
-          <>
-            <div className="d-flex gap-3 justify-content-center mb-4">
-              <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate("/predict")}>
-                🎬 Mulai Prediksi
-              </button>
-              <button className="btn btn-outline-secondary btn-lg" onClick={() => navigate("/riwayat")}>
-                📋 Lihat Riwayat
-              </button>
-              <button className="btn btn-outline-info btn-lg" onClick={() => navigate("/profile")}>
-                👤 Profil Saya
-              </button>
-            </div>
-            <p className="text-white">Selamat datang, {user.name || user.email}!</p>
-          </>
-        )}
+    <>
+      <div className="home-container">
+        <div className="home-content">
+          <h1 className="home-title">Prediksi Umur Wajah</h1>
+          <p className="home-subtitle">Upload foto wajah dan kami akan memperkirkakan usia Anda</p>
+          
+          {!user ? (
+            <>
+              <div className="home-buttons">
+                <button className="home-btn home-btn-primary" onClick={() => navigate("/predict")}>
+                  🔮 Mulai Prediksi
+                </button>
+                <button className="home-btn home-btn-secondary" onClick={() => navigate("/login")}>
+                  🔐 Login
+                </button>
+              </div>
+              <p className="home-message">Login untuk menyimpan riwayat prediksi!</p>
+            </>
+          ) : (
+            <>
+              <div className="home-buttons">
+                <button className="home-btn home-btn-secondary" onClick={() => navigate("/predict")}>
+                  🔮 Mulai Prediksi
+                </button>
+                <button className="home-btn home-btn-secondary" onClick={() => navigate("/riwayat")}>
+                  📋 Lihat Riwayat
+                </button>
+                <button className="home-btn home-btn-secondary" onClick={() => navigate("/profile")}>
+                  👤 Profil Saya
+                </button>
+              </div>
+              <p className="home-message">Selamat datang, {user.name || user.email}!</p>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
+

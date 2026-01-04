@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import "./Riwayat.css";
 
 export default function Riwayat() {
   const [history, setHistory] = useState([]);
@@ -70,68 +71,117 @@ export default function Riwayat() {
     });
   };
 
+  const calculateStats = () => {
+    if (history.length === 0) return null;
+    
+    const totalPredictions = history.length;
+    const averageConfidence = (
+      (history.reduce((sum, h) => sum + h.result.confidence, 0) / history.length) * 100
+    ).toFixed(0);
+    const latestDate = history.length > 0 ? history[0].date : "-";
+
+    return {
+      total: totalPredictions,
+      confidence: averageConfidence,
+      latestDate: latestDate,
+    };
+  };
+
+  const stats = calculateStats();
+
   return (
-    <div className="container py-5">
-      <h1 className="text-center mb-5">📋 Riwayat Prediksi</h1>
+    <div className="riwayat-container">
+      <div className="riwayat-header">
+        <div className="riwayat-icon">📋</div>
+        <h1 className="riwayat-title">Riwayat Prediksi</h1>
+        <p className="riwayat-subtitle">Kelola dan tinjau semua prediksi Anda</p>
+      </div>
 
       {history.length === 0 ? (
-        <div className="alert alert-info text-center">
-          <p>Belum ada riwayat prediksi. Mulai prediksi sekarang!</p>
+        <div className="riwayat-empty">
+          <div className="empty-icon">⚠️</div>
+          <h3>Belum Ada Riwayat</h3>
+          <p>Mulai prediksi sekarang untuk melihat riwayat Anda di sini!</p>
         </div>
       ) : (
         <>
-          <div className="table-responsive mb-4">
-            <table className="table table-striped table-hover">
-              <thead className="table-dark">
-                <tr>
-                  <th>No</th>
-                  <th>Tanggal</th>
-                  <th>Foto</th>
-                  <th>Deskripsi</th>
-                  <th>Hasil Prediksi</th>
-                  <th>Confidence</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {history.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{index + 1}</td>
-                    <td>{item.date}</td>
-                    <td>
-                      <img
-                        src={item.image}
-                        alt="preview"
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          objectFit: "cover",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          const modal = new window.bootstrap.Modal(document.getElementById("imageModal"));
-                          document.getElementById("modalImage").src = item.image;
-                          modal.show();
-                        }}
-                      />
-                    </td>
-                    <td>{item.description || "-"}</td>
-                    <td className="fw-bold text-success">{item.result.predicted_age_group}</td>
-                    <td>{(item.result.confidence * 100).toFixed(2)}%</td>
-                    <td>
-                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(item.id)}>
-                        🗑️ Hapus
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          {/* Summary Card */}
+          <div className="riwayat-summary-card">
+            <div className="summary-item">
+              <div className="summary-value">{stats.total}</div>
+              <div className="summary-label">Total Prediksi</div>
+            </div>
+            <div className="summary-item">
+              <div className="summary-value">{stats.confidence}%</div>
+              <div className="summary-label">Rata-rata Confidence</div>
+            </div>
+            <div className="summary-item">
+              <div className="summary-value">{stats.latestDate}</div>
+              <div className="summary-label">Prediksi Terakhir</div>
+            </div>
           </div>
 
-          <div className="text-center">
-            <button className="btn btn-danger" onClick={handleDeleteAll}>
+          {/* Prediction Cards */}
+          <div className="riwayat-cards-container">
+            {history.map((item, index) => (
+              <div key={item.id} className="prediction-card">
+                <div className="card-index">#{index + 1}</div>
+                
+                <div className="card-image-section">
+                  <img
+                    src={item.image}
+                    alt="prediction"
+                    className="card-image"
+                    onClick={() => {
+                      const modal = new window.bootstrap.Modal(document.getElementById("imageModal"));
+                      document.getElementById("modalImage").src = item.image;
+                      modal.show();
+                    }}
+                  />
+                </div>
+
+                <div className="card-content">
+                  <div className="card-meta">
+                    <span className="card-name">👤 {item.name || "Tanpa Nama"}</span>
+                    <span className="card-date">📅 {item.date}</span>
+                    {item.description && (
+                      <span className="card-category">
+                        <strong>Deskripsi:</strong> {item.description}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="card-result">
+                    <div className="result-label">Hasil Prediksi</div>
+                    <div className="result-group">
+                      <span className="result-text">{item.result.predicted_age_group}</span>
+                      <div className="result-progress">
+                        <div
+                          className="result-bar"
+                          style={{
+                            width: `${item.result.confidence * 100}%`,
+                          }}
+                        ></div>
+                      </div>
+                      <span className="result-percentage">
+                        {(item.result.confidence * 100).toFixed(1)}%
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    className="btn-delete"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    🗑️ Hapus
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="riwayat-footer">
+            <button className="btn-delete-all" onClick={handleDeleteAll}>
               🗑️ Hapus Semua Riwayat
             </button>
           </div>
