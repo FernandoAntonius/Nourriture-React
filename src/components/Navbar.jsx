@@ -14,7 +14,11 @@ export default function Navbar({ isLoggedIn, onLogout }) {
     <nav className="navbar navbar-expand-lg navbar-dark custom-navbar">
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
-          <img src="/Logo.png" alt="Nourriture Logo" className="navbar-logo-img" />
+          <img
+            src="/Logo.png"
+            alt="Nourriture Logo"
+            className="navbar-logo-img"
+          />
           <span className="navbar-brand-text">Nourriture</span>
         </a>
         <button
@@ -24,8 +28,7 @@ export default function Navbar({ isLoggedIn, onLogout }) {
           data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+          aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
@@ -37,12 +40,17 @@ export default function Navbar({ isLoggedIn, onLogout }) {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/predict">
-                🔮 Predict
+                🔮 Prediksi
               </a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/tentang">
                 ℹ️ Tentang Kami
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/kontak">
+                ☎️ Kontak
               </a>
             </li>
 
@@ -61,8 +69,7 @@ export default function Navbar({ isLoggedIn, onLogout }) {
                 <li className="nav-item">
                   <button
                     className="nav-link nav-logout"
-                    onClick={handleLogout}
-                  >
+                    onClick={handleLogout}>
                     🚪 Logout
                   </button>
                 </li>

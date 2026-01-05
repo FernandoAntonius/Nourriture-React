@@ -57,10 +57,10 @@ export default function Footer() {
             © 2026 Nourriture All rights reserved.
           </p>
           <div className="footer-action-links">
-            <a href="#tentang" className="action-link tentang-link">
+            <a href="tentang" className="action-link tentang-link">
               Tentang
             </a>
-            <a href="#kontak" className="action-link kontak-link">
+            <a href="kontak" className="action-link kontak-link">
               Kontak
             </a>
           </div>
