@@ -9,6 +9,7 @@ import Riwayat from "./components/Riwayat";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import TentangKami from "./components/TentangKami";
+import Kontak from "./components/Kontak";
 // Footer is rendered inside the Home component only
 
 function App() {
@@ -37,17 +38,50 @@ function App() {
   const hideNavbar = ["/login", "/register"].includes(location.pathname);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      {!hideNavbar && <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />}
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      {!hideNavbar && (
+        <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      )}
       <main style={{ flex: 1, overflow: "auto" }}>
         <Routes>
           <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
-          <Route path="/predict" element={<Predict isLoggedIn={isLoggedIn} />} />
+          <Route
+            path="/predict"
+            element={<Predict isLoggedIn={isLoggedIn} />}
+          />
           <Route path="/tentang" element={<TentangKami />} />
-          <Route path="/profile" element={isLoggedIn ? <Profile onLogout={handleLogout} /> : <Navigate to="/login" />} />
-          <Route path="/riwayat" element={isLoggedIn ? <Riwayat /> : <Navigate to="/login" />} />
-          <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />} />
-          <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <Register onLogin={handleLogin} />} />
+          <Route path="/kontak" element={<Kontak />} />
+          <Route
+            path="/profile"
+            element={
+              isLoggedIn ? (
+                <Profile onLogout={handleLogout} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/riwayat"
+            element={isLoggedIn ? <Riwayat /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/login"
+            element={
+              isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/" />
+              ) : (
+                <Register onLogin={handleLogin} />
+              )
+            }
+          />
         </Routes>
       </main>
       {/* Footer removed from global layout; Home renders its own Footer */}
