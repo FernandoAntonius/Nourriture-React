@@ -111,24 +111,12 @@ export default function Riwayat() {
 
       {history.length === 0 ? (
         <div className="riwayat-empty">
-          <div className="empty-icon">⚠️</div>
+          <div className="empty-icon2">⚠️</div>
           <h3>Belum Ada Riwayat</h3>
           <p>Mulai prediksi sekarang untuk melihat riwayat Anda di sini!</p>
         </div>
       ) : (
         <>
-          {/* Summary Card */}
-          <div className="riwayat-summary-card">
-            <div className="summary-item">
-              <div className="summary-value">{stats.total}</div>
-              <div className="summary-label">Total Prediksi</div>
-            </div>
-            <div className="summary-item">
-              <div className="summary-value">{stats.latestDate}</div>
-              <div className="summary-label">Prediksi Terakhir</div>
-            </div>
-          </div>
-
           {/* Prediction Cards */}
           <div className="riwayat-cards-container">
             {history.map((item, index) => (
@@ -192,11 +180,13 @@ export default function Riwayat() {
             ))}
           </div>
 
-          <div className="riwayat-footer">
-            <button className="btn-delete-all" onClick={handleDeleteAll}>
-              🗑️ Hapus Semua Riwayat
-            </button>
-          </div>
+          <center>
+            <div className="riwayat-footer">
+              <button className="btn-delete-all" onClick={handleDeleteAll}>
+                🗑️ Hapus Semua Riwayat
+              </button>
+            </div>
+          </center>
 
           <div
             className="modal fade"

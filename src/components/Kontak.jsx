@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Kontak.css";
 
 export default function Kontak() {
@@ -10,6 +10,29 @@ export default function Kontak() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [contactsList, setContactsList] = useState([]);
+  const [loadingContacts, setLoadingContacts] = useState(false);
+
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
+  const fetchContacts = async () => {
+    setLoadingContacts(true);
+    try {
+      const response = await fetch(
+        "https://nourriture-laravel.vercel.app/api/api/contact-us"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setContactsList(data.data || data);
+      }
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+    } finally {
+      setLoadingContacts(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,6 +67,8 @@ export default function Kontak() {
           email: "",
           content: "",
         });
+        // Refresh contacts list
+        fetchContacts();
       } else {
         setMessage("Gagal mengirim pesan. Silakan coba lagi.");
       }
@@ -161,6 +186,39 @@ export default function Kontak() {
             </div>
           </form>
         </div>
+      </div>
+
+      {/* Contact Messages Table */}
+      <div className="contacts-table-section">
+        <h2 className="table-title">📋 Daftar Pesan Masuk</h2>
+        {loadingContacts ? (
+          <div className="loading">Memuat data...</div>
+        ) : contactsList.length === 0 ? (
+          <div className="no-data">Belum ada pesan masuk</div>
+        ) : (
+          <div className="table-wrapper">
+            <table className="contacts-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama</th>
+                  <th>Email</th>
+                  <th>Isi Pesan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contactsList.map((contact, index) => (
+                  <tr key={contact.id || index}>
+                    <td>{index + 1}</td>
+                    <td>{contact.name}</td>
+                    <td>{contact.email}</td>
+                    <td className="message-cell">{contact.content}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

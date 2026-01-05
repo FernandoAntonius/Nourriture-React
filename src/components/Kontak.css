@@ -286,3 +286,107 @@
     font-size: 0.8rem;
   }
 }
+
+/* Contact Messages Table */
+.contacts-table-section {
+  max-width: 1200px;
+  margin: 4rem auto 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, #1a2a4a 0%, #16213e 100%);
+  border-radius: 1rem;
+  border: 1px solid rgba(91, 125, 216, 0.3);
+}
+
+.table-title {
+  font-size: 1.8rem;
+  color: white;
+  margin-bottom: 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #a8d8ff 0%, #7cc3ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.contacts-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.contacts-table thead {
+  background: linear-gradient(135deg, #3d5a94 0%, #2c4570 100%);
+}
+
+.contacts-table th {
+  padding: 1.25rem;
+  text-align: left;
+  font-weight: 600;
+  color: #a8d8ff;
+  border-bottom: 2px solid rgba(91, 125, 216, 0.5);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contacts-table tbody tr {
+  border-bottom: 1px solid rgba(91, 125, 216, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.contacts-table tbody tr:hover {
+  background-color: rgba(91, 125, 216, 0.1);
+}
+
+.contacts-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.contacts-table td {
+  padding: 1rem 1.25rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+}
+
+.message-cell {
+  max-width: 400px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.loading,
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .contacts-table-section {
+    padding: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .table-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .contacts-table th,
+  .contacts-table td {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .message-cell {
+    max-width: 200px;
+  }
+}

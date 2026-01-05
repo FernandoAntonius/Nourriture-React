@@ -19,20 +19,28 @@ export default function Profile({ onLogout }) {
     if (userData) {
       setUser(userData);
       setFormData(userData);
-      
+
       // Calculate stats from prediction history
-      const historyData = JSON.parse(localStorage.getItem("predictionHistory") || "[]");
+      const historyData = JSON.parse(
+        localStorage.getItem("predictionHistory") || "[]"
+      );
       const userHistory = historyData.filter((h) => h.user === userData.email);
-      
+
       const predictions = userHistory.length;
-      const accuracy = predictions > 0 
-        ? Math.round((userHistory.reduce((sum, h) => sum + h.result.confidence, 0) / predictions) * 100)
-        : 0;
-      
+      const accuracy =
+        predictions > 0
+          ? Math.round(
+              (userHistory.reduce((sum, h) => sum + h.result.confidence, 0) /
+                predictions) *
+                100
+            )
+          : 0;
+
       const registrationDate = new Date(userData.registeredAt || Date.now());
       const now = new Date();
-      const daysActive = Math.floor((now - registrationDate) / (1000 * 60 * 60 * 24)) + 1;
-      
+      const daysActive =
+        Math.floor((now - registrationDate) / (1000 * 60 * 60 * 24)) + 1;
+
       setStats({
         predictions,
         accuracy,
@@ -120,10 +128,7 @@ export default function Profile({ onLogout }) {
 
               {/* Action Buttons */}
               <div className="button-group">
-                <button
-                  className="btn-edit"
-                  onClick={() => setIsEditing(true)}
-                >
+                <button className="btn-edit" onClick={() => setIsEditing(true)}>
                   ✏️ Edit Profil
                 </button>
                 <button className="btn-logout" onClick={handleLogout}>
@@ -136,7 +141,9 @@ export default function Profile({ onLogout }) {
               {/* Edit Mode */}
               <div className="profile-info">
                 <div className="info-field">
-                  <label className="info-label" htmlFor="name">👤 Nama</label>
+                  <label className="info-label" htmlFor="name">
+                    👤 Nama
+                  </label>
                   <input
                     type="text"
                     className="info-input"
@@ -148,14 +155,16 @@ export default function Profile({ onLogout }) {
                 </div>
 
                 <div className="info-field">
-                  <label className="info-label" htmlFor="email">📧 Email</label>
+                  <label className="info-label" htmlFor="email">
+                    📧 Email
+                  </label>
                   <input
                     type="email"
                     className="info-input"
                     id="email"
                     name="email"
                     value={formData.email}
-                    readOnly
+                    disabled
                   />
                 </div>
               </div>
@@ -167,8 +176,7 @@ export default function Profile({ onLogout }) {
                 </button>
                 <button
                   className="btn-cancel"
-                  onClick={() => setIsEditing(false)}
-                >
+                  onClick={() => setIsEditing(false)}>
                   ❌ Batal
                 </button>
               </div>
@@ -182,8 +190,11 @@ export default function Profile({ onLogout }) {
               <div className="stat-label">Prediksi</div>
             </div>
             <div className="stat-item">
-              <div className="stat-value">{stats.accuracy}%</div>
-              <div className="stat-label">Akurasi</div>
+              <img
+                src="/Logo.png"
+                alt="Nourriture Logo"
+                className="stat-logo"
+              />
             </div>
             <div className="stat-item">
               <div className="stat-value">{stats.daysActive}</div>
@@ -192,11 +203,9 @@ export default function Profile({ onLogout }) {
           </div>
 
           {/* Footer */}
-            <div className="profile-footer">
-              🔒 Data Anda aman di tangan kami
-            </div>
-          </div>
+          <div className="profile-footer">🔒 Data Anda aman di tangan kami</div>
         </div>
       </div>
+    </div>
   );
 }
