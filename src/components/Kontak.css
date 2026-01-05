@@ -92,6 +92,22 @@
   line-height: 1.5;
 }
 
+.info-link {
+  display: inline-block;
+  margin: 0;
+  color: #a8d8ff;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.info-link:hover {
+  color: #7cc3ff;
+  border-bottom-color: #7cc3ff;
+}
+
 .kontak-form-wrapper {
   background: linear-gradient(
     135deg,
@@ -215,6 +231,20 @@
   line-height: 1.6;
 }
 
+/* Section Divider */
+.section-divider {
+  max-width: 1200px;
+  margin: 3rem auto;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(91, 125, 216, 0.5) 50%,
+    transparent 100%
+  );
+  border-radius: 1px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .kontak-container {
@@ -292,9 +322,7 @@
   max-width: 1200px;
   margin: 4rem auto 0;
   padding: 2rem;
-  background: linear-gradient(135deg, #1a2a4a 0%, #16213e 100%);
   border-radius: 1rem;
-  border: 1px solid rgba(91, 125, 216, 0.3);
 }
 
 .table-title {

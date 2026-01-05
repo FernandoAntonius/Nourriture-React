@@ -92,14 +92,16 @@ export default function Kontak() {
       details: "+62 812-3456-7890",
     },
     {
-      icon: "📍",
-      title: "Alamat",
-      details: "Jl. Teknologi No. 123, Jakarta, Indonesia",
+      icon: "📖",
+      title: "GitBook",
+      details: "Dokumentasi Nourriturehilan",
+      link: "https://nourriture.gitbook.io/nourriture",
     },
     {
-      icon: "🕐",
-      title: "Jam Operasional",
-      details: "Senin - Jumat: 09:00 - 17:00 WIB",
+      icon: "🐙",
+      title: "React Repository",
+      details: "Repository Nourriture-React",
+      link: "https://github.com/FernandoAntonius/Nourriture-React",
     },
   ];
 
@@ -117,7 +119,17 @@ export default function Kontak() {
               <div className="info-icon">{info.icon}</div>
               <div className="info-text">
                 <h3>{info.title}</h3>
-                <p>{info.details}</p>
+                {info.link ? (
+                  <a
+                    href={info.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="info-link">
+                    {info.details}
+                  </a>
+                ) : (
+                  <p>{info.details}</p>
+                )}
               </div>
             </div>
           ))}
@@ -187,6 +199,9 @@ export default function Kontak() {
           </form>
         </div>
       </div>
+
+      {/* Divider */}
+      <div className="section-divider"></div>
 
       {/* Contact Messages Table */}
       <div className="contacts-table-section">

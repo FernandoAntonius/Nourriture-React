@@ -90,7 +90,7 @@ export default function TentangKami() {
         <div className="team-grid">
           <div className="team-card">
             <img
-              src="/team/justyn.jpg"
+              src="/public/iwak-placeholder.jpg"
               alt="Justyn Cannavaro"
               className="team-photo"
             />
@@ -99,25 +99,25 @@ export default function TentangKami() {
           </div>
           <div className="team-card">
             <img
-              src="/team/jessly.jpg"
-              alt="Jessly Kimiko"
+              src="/public/iwak-placeholder.jpg"
+              alt="Jesslyn Kimiko"
               className="team-photo"
             />
-            <div className="team-name">Jessly Kimiko</div>
+            <div className="team-name">Jesslyn Kimiko</div>
             <div className="team-role">Team Member</div>
           </div>
           <div className="team-card">
             <img
-              src="/team/fernando.jpg"
+              src="/public/iwak-placeholder.jpg"
               alt="Fernando Antonius"
               className="team-photo"
             />
             <div className="team-name">Fernando Antonius</div>
-            <div className="team-role">Team Member</div>
+            <div className="team-role">Team Leader</div>
           </div>
           <div className="team-card">
             <img
-              src="/team/variel.jpg"
+              src="/public/iwak-placeholder.jpg"
               alt="Variel Axcelino White Jemus"
               className="team-photo"
             />
@@ -126,7 +126,7 @@ export default function TentangKami() {
           </div>
           <div className="team-card">
             <img
-              src="/team/finelga.jpg"
+              src="/public/iwak-placeholder.jpg"
               alt="Finelga Hessigawa"
               className="team-photo"
             />
