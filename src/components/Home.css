@@ -162,3 +162,10 @@
     font-size: 0.95rem;
   }
 }
+
+/* Footer wrapper placed after the home section so footer is below the background image */
+.home-footer-wrapper {
+  display: block;
+  width: 100%;
+  margin-top: 0;
+}

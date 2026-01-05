@@ -46,7 +46,10 @@ export default function Home({ isLoggedIn }) {
           )}
         </div>
       </div>
-      <Footer />
+
+      <div className="home-footer-wrapper">
+        <Footer />
+      </div>
     </>
   );
 }

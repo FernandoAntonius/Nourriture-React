@@ -152,6 +152,18 @@
   box-shadow: 0 0 10px rgba(91, 125, 216, 0.2);
 }
 
+/* Make readonly inputs visually distinct */
+.info-input[readonly] {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: not-allowed;
+}
+.info-input[readonly]:focus {
+  box-shadow: none;
+  outline: none;
+}
+
 /* Button Group */
 .button-group {
   display: grid;
@@ -239,13 +251,12 @@
   font-weight: 500;
 }
 
-/* Footer */
+/* Footer message shown in Profile */
 .profile-footer {
   text-align: center;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
-  padding-top: 1rem;
-  border-top: 1px solid rgba(91, 125, 216, 0.2);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 1rem;
 }
 
 /* Responsive Design */
@@ -405,5 +416,7 @@
 
   .profile-footer {
     font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
   }
 }

@@ -155,7 +155,7 @@ export default function Profile({ onLogout }) {
                     id="email"
                     name="email"
                     value={formData.email}
-                    onChange={handleChange}
+                    readOnly
                   />
                 </div>
               </div>
@@ -192,11 +192,11 @@ export default function Profile({ onLogout }) {
           </div>
 
           {/* Footer */}
-          <div className="profile-footer">
-            🔒 Data Anda aman ditangan kami
+            <div className="profile-footer">
+              🔒 Data Anda aman di tangan kami
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }

@@ -8,7 +8,7 @@ import Profile from "./components/Profile";
 import Riwayat from "./components/Riwayat";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Footer from "./components/Footer";
+// Footer is rendered inside the Home component only
 
 function App() {
   const location = useLocation();
@@ -34,7 +34,6 @@ function App() {
   if (loading) return <div>Loading...</div>;
 
   const hideNavbar = ["/login", "/register"].includes(location.pathname);
-  const showFooter = !hideNavbar;
 
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -49,7 +48,7 @@ function App() {
           <Route path="/register" element={isLoggedIn ? <Navigate to="/" /> : <Register onLogin={handleLogin} />} />
         </Routes>
       </main>
-      {showFooter && <Footer />}
+      {/* Footer removed from global layout; Home renders its own Footer */}
     </div>
   );
 }

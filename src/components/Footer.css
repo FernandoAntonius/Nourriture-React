@@ -1,8 +1,9 @@
 .footer {
   background: linear-gradient(135deg, #0f1728 0%, #1a1f3a 100%);
-  border-top: 1px solid rgba(91, 125, 216, 0.2);
+  border-top: none;
   color: white;
   width: 100%;
+  box-shadow: 0 -1px 0 rgba(0,0,0,0.15) inset;
 }
 
 .footer-content {
