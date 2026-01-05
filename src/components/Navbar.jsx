@@ -40,6 +40,11 @@ export default function Navbar({ isLoggedIn, onLogout }) {
                 🔮 Predict
               </a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/tentang">
+                ℹ️ Tentang Kami
+              </a>
+            </li>
 
             {isLoggedIn ? (
               <>

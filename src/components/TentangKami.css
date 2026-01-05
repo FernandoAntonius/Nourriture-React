@@ -1,0 +1,246 @@
+/* Overall layout */
+.tentang-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1f3a 0%, #16213e 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Main content area */
+.tentang-main {
+  flex: 1;
+  color: #fff;
+  padding: 3.5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main-top {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 3rem;
+}
+
+.main-logo {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+}
+
+.main-title {
+  font-size: 3.5rem;
+  letter-spacing: 8px;
+  margin: 0;
+  font-weight: 700;
+  background: linear-gradient(135deg, #a8d8ff 0%, #7cc3ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.main-subtitle {
+  margin-top: 8px;
+  color: rgba(255,255,255,0.7);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.main-description {
+  margin: 2rem auto 0;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.8;
+  font-size: 1rem;
+  padding: 0 1rem;
+  max-width: 760px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.main-contact {
+  margin: 1.5rem auto 0;
+  padding: 0 1rem; /* match horizontal padding with .main-description */
+  color: rgba(255,255,255,0.85);
+  font-size: 0.98rem;
+  max-width: 760px;
+  text-align: left;
+}
+
+.separator {
+  height: 1px;
+  background: rgba(91, 125, 216, 0.15);
+  max-width: 760px;
+  margin: 2rem auto;
+}
+
+.progress-list {
+  max-width: 700px;
+  margin: 2rem auto 3rem;
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.progress-label {
+  width: 120px;
+  color: rgba(255,255,255,0.9);
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.progress-bar {
+  flex: 1;
+  background: rgba(91, 125, 216, 0.15);
+  height: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #5b7dd8 0%, #4a6bc4 100%);
+}
+
+.progress-percent {
+  width: 45px;
+  text-align: right;
+  color: #a8d8ff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.team-title {
+  text-align: center;
+  max-width: 900px;
+  margin: 2rem auto 2.5rem;
+  color: #a8d8ff;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.team-card {
+  background: linear-gradient(135deg, rgba(91, 125, 216, 0.08) 0%, rgba(74, 107, 196, 0.04) 100%);
+  border: 1px solid rgba(91, 125, 216, 0.2);
+  padding: 1.5rem 1rem;
+  border-radius: 1rem;
+  color: #fff;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.team-card:hover {
+  background: linear-gradient(135deg, rgba(91, 125, 216, 0.15) 0%, rgba(74, 107, 196, 0.08) 100%);
+  border-color: rgba(91, 125, 216, 0.4);
+  transform: translateY(-4px);
+}
+
+.team-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #5b7dd8 0%, #4a6bc4 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 20px rgba(91, 125, 216, 0.3);
+}
+
+/* image-based photo */
+.team-photo {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto 0.8rem auto;
+}
+
+.team-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #a8d8ff;
+  margin-bottom: 0.5rem;
+}
+
+.team-role {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7);
+}
+
+/* Responsive tweaks */
+@media (max-width: 1200px) {
+  .team-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .tentang-main {
+    padding: 2rem 1rem;
+  }
+
+  .main-title {
+    font-size: 2.2rem;
+    letter-spacing: 4px;
+  }
+
+  .main-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .progress-label {
+    width: 120px;
+    font-size: 0.85rem;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .team-img {
+    width: 80px;
+    height: 80px;
+    font-size: 1.3rem;
+  }
+
+  .team-name {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tentang-main {
+    padding: 1.5rem 1rem;
+  }
+
+  .main-title {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+  }
+
+  .main-description {
+    font-size: 0.9rem;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}

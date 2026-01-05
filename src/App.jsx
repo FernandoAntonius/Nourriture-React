@@ -8,6 +8,7 @@ import Profile from "./components/Profile";
 import Riwayat from "./components/Riwayat";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import TentangKami from "./components/TentangKami";
 // Footer is rendered inside the Home component only
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
           <Route path="/predict" element={<Predict isLoggedIn={isLoggedIn} />} />
+          <Route path="/tentang" element={<TentangKami />} />
           <Route path="/profile" element={isLoggedIn ? <Profile onLogout={handleLogout} /> : <Navigate to="/login" />} />
           <Route path="/riwayat" element={isLoggedIn ? <Riwayat /> : <Navigate to="/login" />} />
           <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={handleLogin} />} />
