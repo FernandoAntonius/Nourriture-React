@@ -42,14 +42,19 @@ export default function Predict({ isLoggedIn }) {
       const blob = await fetch(image).then((res) => res.blob());
       formData.append("file", blob);
 
-      const response = await axios.post("http://127.0.0.1:8000/predict", formData);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/predict",
+        formData
+      );
 
       console.log("API Response:", response.data);
       setResult(response.data);
 
       if (isLoggedIn) {
         const user = JSON.parse(localStorage.getItem("user"));
-        const history = JSON.parse(localStorage.getItem("predictionHistory") || "[]");
+        const history = JSON.parse(
+          localStorage.getItem("predictionHistory") || "[]"
+        );
 
         history.push({
           id: Date.now(),
@@ -62,10 +67,57 @@ export default function Predict({ isLoggedIn }) {
         });
 
         localStorage.setItem("predictionHistory", JSON.stringify(history));
+
+        // Send prediction result to backend - persons table
+        try {
+          const backendResponse = await axios.post(
+            "https://nourriture-laravel.vercel.app/api/api/persons",
+            {
+              name: name || "Unknown",
+              description: description || "",
+              predicted_age_group: response.data.predicted_age_group,
+              confidence: response.data.confidence,
+            }
+          );
+          console.log("Prediction saved to persons:", backendResponse.data);
+        } catch (backendErr) {
+          console.error("Error saving to persons:", backendErr);
+          console.error("Backend response data:", backendErr.response?.data);
+          console.error(
+            "Backend error:",
+            backendErr.response?.data?.message || backendErr.message
+          );
+        }
+
+        // Send prediction result to backend - histories table
+        try {
+          const historiesResponse = await axios.post(
+            "https://nourriture-laravel.vercel.app/api/api/histories",
+            {
+              user_id: user.id,
+              name: name || "Unknown",
+              description: description || "",
+              predicted_age_group: response.data.predicted_age_group,
+              confidence: response.data.confidence,
+            }
+          );
+          console.log("Prediction saved to histories:", historiesResponse.data);
+        } catch (historiesErr) {
+          console.error("Error saving to histories:", historiesErr);
+          console.error("Backend response data:", historiesErr.response?.data);
+          console.error(
+            "Backend error:",
+            historiesErr.response?.data?.message || historiesErr.message
+          );
+        }
       }
     } catch (err) {
       console.error("Prediction error:", err);
-      setError(`Gagal melakukan prediksi: ${err.response?.status} ${err.response?.statusText || err.message}`);
+      setError(
+        `Gagal melakukan prediksi: ${err.response?.status} ${
+          err.response?.statusText || err.message
+        }`
+      );
     } finally {
       setLoading(false);
     }
@@ -78,7 +130,9 @@ export default function Predict({ isLoggedIn }) {
         <div className="predict-header">
           <div className="predict-icon">🔮</div>
           <h1 className="predict-title">Prediksi Umur Wajah</h1>
-          <p className="predict-subtitle">Upload foto dan biarkan AI memprediksi usia Anda</p>
+          <p className="predict-subtitle">
+            Upload foto dan biarkan AI memprediksi usia Anda
+          </p>
         </div>
 
         {/* Main Content Card */}
@@ -86,33 +140,30 @@ export default function Predict({ isLoggedIn }) {
           {/* Upload Section */}
           <div
             className="upload-area"
-            onClick={() => document.querySelector(".file-input").click()}
-          >
+            onClick={() => document.querySelector(".file-input").click()}>
             {image ? (
-              <img
-                src={image}
-                alt="preview"
-                className="upload-preview"
-              />
+              <img src={image} alt="preview" className="upload-preview" />
             ) : (
               <div className="upload-empty">
                 <div className="upload-icon">📷</div>
                 <p className="upload-text">Klik atau Drag & Drop Foto</p>
-                <small className="upload-format">Format: JPG, PNG (Maks. 10MB)</small>
+                <small className="upload-format">
+                  Format: JPG, PNG (Maks. 10MB)
+                </small>
               </div>
             )}
-            <input 
-              type="file" 
-              accept="image/*" 
-              onChange={handleImageUpload} 
-              className="file-input" 
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="file-input"
             />
           </div>
 
           {/* Description Section */}
           {isLoggedIn && (
             <div className="description-section">
-              <label className="description-label">� Nama</label>
+              <label className="description-label">🙂 Nama</label>
               <input
                 type="text"
                 className="description-input"
@@ -121,7 +172,9 @@ export default function Predict({ isLoggedIn }) {
                 placeholder="Masukkan nama Anda..."
               />
 
-              <label className="description-label">📝 Deskripsi (Opsional)</label>
+              <label className="description-label">
+                📝 Deskripsi (Opsional)
+              </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -135,8 +188,7 @@ export default function Predict({ isLoggedIn }) {
           <button
             onClick={handlePredict}
             disabled={loading}
-            className={`predict-button ${loading ? "loading" : ""}`}
-          >
+            className={`predict-button ${loading ? "loading" : ""}`}>
             {loading ? (
               <>
                 <span style={{ marginRight: "8px" }}>⏳</span>
@@ -158,12 +210,12 @@ export default function Predict({ isLoggedIn }) {
           {result && (
             <div className="result-section">
               <h3 className="result-title">✨ Hasil Prediksi</h3>
-              <div className="result-value">
-                {result.predicted_age_group}
-              </div>
+              <div className="result-value">{result.predicted_age_group}</div>
               <p className="result-label">Tahun</p>
               <div className="result-confidence">
-                <small>Confidence: <strong>{(result.confidence * 100).toFixed(2)}%</strong></small>
+                <small>
+                  Confidence: <strong>{result.confidence.toFixed(2)}%</strong>
+                </small>
               </div>
             </div>
           )}
